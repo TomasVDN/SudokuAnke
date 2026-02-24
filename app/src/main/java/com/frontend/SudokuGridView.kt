@@ -15,7 +15,7 @@ class SudokuGridView(context: Context, attrs: AttributeSet? = null) : GridLayout
 
     var checkValidity: (() -> Unit)? = null
 
-    private var selectedDigit = 0
+    private var selectedDigit = -1
 
     fun setSudoku(sudoku: Sudoku) {
         this.sudoku = sudoku
@@ -79,6 +79,11 @@ class SudokuGridView(context: Context, attrs: AttributeSet? = null) : GridLayout
         for (i in 0 until childCount) {
             (getChildAt(i) as SudokuCellView).isCellSelected = (i == index)
             getChildAt(i).invalidate()
+        }
+
+        if (selectedDigit == -1)
+        {
+            return
         }
 
         val row = index / columnCount

@@ -95,6 +95,15 @@ public class SudokuUtil {
         }
     }
 
+    public static String getFromDiskAsString(Context context, String name) throws IOException {
+        return toString(getFromDisk(context, name));
+    }
+
+    public static void deleteSave(Context context, String name) throws IOException {
+        File file = new File(getSudokuDir(context), name);
+        file.delete();
+    }
+
     public static List<String> getSavedNames(Context context) {
         String[] files = getSudokuDir(context).list();
         return files != null ? Arrays.asList(files) : List.of();

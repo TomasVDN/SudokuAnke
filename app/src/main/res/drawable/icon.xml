@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Background -->
+    <path android:fillColor="#1565C0" android:pathData="M0,0 h108 v108 h-108 z" />
+
+    <!-- Row 0 -->
+    <path android:fillColor="#FFFFFF" android:pathData="M5,5 h30 v30 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M39,5 h30 v30 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M73,5 h30 v30 h-30 z" />
+
+    <!-- Row 1 -->
+    <path android:fillColor="#FFFFFF" android:pathData="M5,39 h30 v30 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M39,39 h30 v30 h-30 z" />
+    <!-- "A" in center box (center box spans x:39-69, y:39-69, center at 54,54) -->
+    <path
+        android:strokeColor="#1565C0"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M54,43 L44,66 M54,43 L64,66 M48,58 L60,58" />
+    <path android:fillColor="#FFFFFF" android:pathData="M73,39 h30 v30 h-30 z" />
+
+    <!-- Row 2 -->
+    <path android:fillColor="#FFFFFF" android:pathData="M5,73 h30 v30 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M39,73 h30 v30 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M73,73 h30 v30 h-30 z" />
+
+</vector>

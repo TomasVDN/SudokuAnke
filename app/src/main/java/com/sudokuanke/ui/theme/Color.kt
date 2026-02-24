@@ -1,4 +1,4 @@
-package com.example.sudokuanke.ui.theme
+package com.sudokuanke.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

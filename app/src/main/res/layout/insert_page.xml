@@ -17,27 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginTop="10pt" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/emptyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Empty" />
-
-        <EditText
-            android:id="@+id/sudokuName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="Sudoku name"
-            android:text=""/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -52,37 +31,32 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:id="@+id/saveButton"
-            />
-        <Button
-            android:id="@+id/solveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Solve (for the cheaters)"
-            android:textSize="5pt" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Undo (for the weak)"
+            android:text="Undo (for the crazy)"
             android:textSize="5pt"
             android:id="@+id/undoButton"
             />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <Button
-            android:id="@+id/undoUntilValidButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Undo all (for the bad)"
-            android:textSize="5pt" />
+            android:text="Save"
+            android:id="@+id/saveButton"/>
+        <EditText
+            android:id="@+id/sudokuName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="8"
+            android:inputType="text"
+            android:text=""
+            android:hint="Sudoku name" />
     </LinearLayout>
 
 </LinearLayout>

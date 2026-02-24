@@ -1,6 +1,5 @@
-package com.example.sudokuanke.ui.theme
+package com.sudokuanke.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

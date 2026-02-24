@@ -1,4 +1,4 @@
-package com.example.sudokuanke
+package com.sudokuanke.activities
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -14,9 +14,12 @@ import com.backend.SudokuUtil
 import com.frontend.NumberSelector
 import com.frontend.SudokuGridView
 import com.frontend.Undoer
+import com.sudokuanke.R
 
-class MainActivity : ComponentActivity() {
+class SudokuActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val boardAsString : String? = intent.extras?.getString("board")
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.sudoku_page)
@@ -27,9 +30,13 @@ class MainActivity : ComponentActivity() {
         val undoer: Undoer = Undoer()
         grid.setUndoer(undoer)
 
-        val generator = SudokuGenerator()
+        if (boardAsString == null) {
+            val generator = SudokuGenerator()
+            sudoku.init(generator.generate(SudokuGenerator.Difficulty.EASY))
+        } else {
+            sudoku.init(SudokuUtil.fromString(boardAsString))
+        }
 
-        sudoku.init(generator.generate(SudokuGenerator.Difficulty.EASY))
         grid.setSudoku(sudoku)
 
         val selector = findViewById<NumberSelector>(R.id.numberSelector)
@@ -37,6 +44,13 @@ class MainActivity : ComponentActivity() {
         selector.onDigitSelected = { digit ->
             grid.setSelectedDigit(digit)
             SudokuUtil.printToSystemOut(sudoku.asBoard)
+        }
+
+        val exitButton = findViewById<Button>(R.id.exitButton)
+        exitButton.setOnClickListener {
+            sudoku.clear()
+            grid.refreshValues()
+            exit()
         }
 
         val emptyButton = findViewById<Button>(R.id.emptyButton)
@@ -77,17 +91,9 @@ class MainActivity : ComponentActivity() {
         }
 
         val saveButton = findViewById<Button>(R.id.saveButton)
-        val loadButton = findViewById<Button>(R.id.loadButton)
 
         saveButton.setOnClickListener {
             SudokuUtil.saveToDisk(applicationContext,findViewById<EditText>(R.id.sudokuName).text.toString(), sudoku.asBoard)
-        }
-
-        loadButton.setOnClickListener {
-            // TODO[Tomas] handle exception... For now, the app crashes :D
-            val board = SudokuUtil.getFromDisk(applicationContext, findViewById<EditText>(R.id.sudokuName).text.toString())
-            sudoku.init(board)
-            grid.setSudoku(sudoku)
         }
 
         grid.checkValidity = {
@@ -116,5 +122,9 @@ class MainActivity : ComponentActivity() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun exit() {
+        finish()
     }
 }
