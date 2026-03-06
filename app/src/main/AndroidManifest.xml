@@ -40,6 +40,20 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.SudokuAnke">
         </activity>
+        <activity
+            android:name="com.sudokuanke.activities.ImportActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.SudokuAnke">
+        </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.sudokuanke.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
-
 </manifest>

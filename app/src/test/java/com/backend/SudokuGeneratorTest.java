@@ -1,5 +1,10 @@
 package com.backend;
 
+import com.backend.sudoku.Sudoku;
+import com.backend.sudoku.SudokuGenerator;
+import com.backend.sudoku.SudokuImpl;
+import com.backend.sudoku.SudokuSolver;
+
 import org.junit.Assert;
 import org.junit.Test;
 

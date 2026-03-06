@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
+    android:padding="10dp"
+    >
+
+    <Button
+        android:id="@+id/take_image_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Take picture"
+    />
+
+    <Button
+        android:id="@+id/read_image_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Read sudoku from picture"
+    />
+
+    <com.sudokuanke.ui.DotImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/backgrounds/scenic"
+        android:scaleType="fitCenter"
+    />
+
+</LinearLayout>

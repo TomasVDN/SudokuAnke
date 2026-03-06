@@ -28,6 +28,11 @@ class MainActivity : ComponentActivity() {
         insertBoardButton.setOnClickListener {
             startInsertBoardActivity()
         }
+
+        val importBoardButton = findViewById<Button>(R.id.importBoardButton)
+        importBoardButton.setOnClickListener {
+            startImportBoardActivity()
+        }
     }
 
     private fun startSudokuActivity() {
@@ -42,6 +47,11 @@ class MainActivity : ComponentActivity() {
 
     private fun startInsertBoardActivity() {
         val intent = Intent(this, InsertActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startImportBoardActivity() {
+        val intent = Intent(this, ImportActivity::class.java)
         startActivity(intent)
     }
 }

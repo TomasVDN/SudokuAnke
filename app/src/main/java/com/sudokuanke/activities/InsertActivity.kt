@@ -6,9 +6,9 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-import com.backend.Sudoku
-import com.backend.SudokuImpl
-import com.backend.SudokuUtil
+import com.backend.sudoku.Sudoku
+import com.backend.sudoku.SudokuImpl
+import com.backend.sudoku.SudokuUtil
 import com.frontend.NumberSelector
 import com.frontend.SudokuGridView
 import com.frontend.Undoer

@@ -1,4 +1,4 @@
-package com.backend;
+package com.backend.sudoku;
 
 //TODO[Tomas] Clean this mess up, add comments
 public class SudokuSolver {

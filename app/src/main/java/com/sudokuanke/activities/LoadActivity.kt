@@ -1,6 +1,5 @@
 package com.sudokuanke.activities
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,7 +12,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-import com.backend.SudokuUtil
+import com.backend.sudoku.SudokuUtil
 import com.sudokuanke.R
 
 class LoadActivity : ComponentActivity(), AdapterView.OnItemSelectedListener {

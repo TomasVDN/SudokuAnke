@@ -1,7 +1,9 @@
-package com.backend
+package com.backend.sudoku
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.backend.sudoku.SudokuGenerator
+import com.backend.sudoku.SudokuUtil
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith

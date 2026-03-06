@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.widget.GridLayout
-import com.backend.Sudoku
+import com.backend.sudoku.Sudoku
 
 class SudokuGridView(context: Context, attrs: AttributeSet? = null) : GridLayout(context, attrs) {
 
@@ -64,11 +64,11 @@ class SudokuGridView(context: Context, attrs: AttributeSet? = null) : GridLayout
                 value = null
                 setOnClickListener { onCellClicked(index) }
             }
-            val params = GridLayout.LayoutParams().apply {
+            val params = LayoutParams().apply {
                 width = 0
                 height = 0
-                columnSpec = GridLayout.spec(index % columnCount, 1f)
-                rowSpec = GridLayout.spec(index / columnCount, 1f)
+                columnSpec = spec(index % columnCount, 1f)
+                rowSpec = spec(index / columnCount, 1f)
             }
             addView(cell, params)
         }

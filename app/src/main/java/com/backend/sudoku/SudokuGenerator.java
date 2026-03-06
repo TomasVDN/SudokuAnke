@@ -1,4 +1,4 @@
-package com.backend;
+package com.backend.sudoku;
 
 import java.util.Random;
 
