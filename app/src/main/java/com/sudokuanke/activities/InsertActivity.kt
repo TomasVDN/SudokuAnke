@@ -20,10 +20,16 @@ class InsertActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.insert_page)
 
+        val boardAsString : String? = intent.extras?.getString("board")
+
         val grid = findViewById<SudokuGridView>(R.id.sudokuGridView)
         val sudoku: Sudoku = SudokuImpl()
 
-        val undoer: Undoer = Undoer()
+        if (boardAsString != null) {
+            sudoku.init(SudokuUtil.fromString(boardAsString))
+        }
+
+        val undoer = Undoer()
         grid.setUndoer(undoer)
 
         grid.setSudoku(sudoku)

@@ -16,7 +16,7 @@ public class SudokuReaderUtil {
         int relativeXPosition = 9*(characterBoundingBox.centerX() - xOffset) / width;
         int relativeYPosition = 9*(characterBoundingBox.centerY() - yOffset) / height;
 
-        return new int[] {relativeXPosition, relativeYPosition};
+        return new int[] {relativeYPosition, relativeXPosition};
     }
 
     public static boolean indicesValid(int[] indices) {
@@ -25,14 +25,19 @@ public class SudokuReaderUtil {
                 && indices[1] >= 0 && indices[1] < 9;
     }
 
+    public static boolean valueValid(int value) {
+        return value >= 0 && value <= 9;
+    }
+
+
     public static String prettyPrintSudoku(int[][] sudoku) {
-        String string = "";
-        for(int i=0; i<sudoku.length; i++){
-            for (int j=0;j<sudoku[i].length;j++) {
-                string += sudoku[j][i] + " ";
+        StringBuilder string = new StringBuilder();
+        for (int[] rows : sudoku) {
+            for (int value : rows) {
+                string.append(value).append(" ");
             }
-            string += "\n";
+            string.append("\n");
         }
-        return string;
+        return string.toString();
     }
 }
