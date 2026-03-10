@@ -53,7 +53,6 @@ public class SudokuImpl implements Sudoku {
             }
 
             for (int value : row) {
-                //TODO[Tomas] bump minimum api level
                 if (!predicate.test(value)) {
                     throw new IllegalArgumentException("Invalid value provided: " + value);
                 }
