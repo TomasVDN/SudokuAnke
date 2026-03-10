@@ -32,12 +32,23 @@ public class SudokuImpl implements Sudoku {
         }
     }
 
-    public void clear() {
+    private void clear() {
         // Reset all the arrays
         Arrays.fill(valuesInOrder, 0);
         Arrays.fill(rowValues, 0);
         Arrays.fill(columnValues, 0);
         Arrays.fill(boxValues, 0);
+    }
+
+    @Override
+    public void clearNonOriginals() {
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (getDigitAt(row, column) != 0 && !digitAtIsOriginal(row, column)) {
+                    remove(row, column);
+                }
+            }
+        }
     }
 
     private static void performSanityChecks(int[][] board) {

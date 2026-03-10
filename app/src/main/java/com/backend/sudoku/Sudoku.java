@@ -5,7 +5,7 @@ import java.util.List;
 public interface Sudoku {
     void init(int[][] board);
 
-    void clear();
+    void clearNonOriginals();
 
     void place(int row, int column, int digit);
 

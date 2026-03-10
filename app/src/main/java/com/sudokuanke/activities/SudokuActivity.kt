@@ -48,14 +48,12 @@ class SudokuActivity : ComponentActivity() {
 
         val exitButton = findViewById<Button>(R.id.exitButton)
         exitButton.setOnClickListener {
-            sudoku.clear()
-            grid.refreshValues()
             exit()
         }
 
         val emptyButton = findViewById<Button>(R.id.emptyButton)
         emptyButton.setOnClickListener {
-            sudoku.clear()
+            sudoku.clearNonOriginals()
             grid.refreshValues()
         }
 

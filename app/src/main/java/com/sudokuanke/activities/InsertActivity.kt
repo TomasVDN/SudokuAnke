@@ -43,8 +43,6 @@ class InsertActivity : ComponentActivity() {
 
         val exitButton = findViewById<Button>(R.id.exitButton)
         exitButton.setOnClickListener {
-            sudoku.clear()
-            grid.refreshValues()
             exit()
         }
 
