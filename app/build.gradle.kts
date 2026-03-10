@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.sudokuanke"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
