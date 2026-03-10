@@ -22,6 +22,7 @@ public class SudokuGenerator {
     }
 
     private final Random random;
+    private final int MAX_ITERATIONS = 100;
 
     public SudokuGenerator() {
         this(new Random());
@@ -32,19 +33,33 @@ public class SudokuGenerator {
     }
 
     public int[][] generate(Difficulty difficulty) {
-        Sudoku sudoku = new SudokuImpl();
-
-        // Step 1: Generate a fully solved board
-        fillRandomly(sudoku);
-
-        // Step 2: Pick a target clue count within the difficulty range
+        // Pick a target clue count within the difficulty range
         int targetClues = difficulty.minClues
                 + random.nextInt(difficulty.maxClues - difficulty.minClues + 1);
 
-        // Step 3: Remove cells symmetrically while preserving uniqueness
-        removeClues(sudoku, targetClues);
+        Sudoku bestSudoku = new SudokuImpl();
+        int bestRemainingClues = 81;
+        int remainingClues = 81;
+        int iteration = 0;
+        while (remainingClues > targetClues && iteration < MAX_ITERATIONS) {
+            Sudoku sudoku = new SudokuImpl();
 
-        return sudoku.getAsBoard();
+            fillRandomly(sudoku);
+            remainingClues = removeClues(sudoku, targetClues);
+
+            if (bestRemainingClues > remainingClues) {
+                bestRemainingClues = remainingClues;
+                bestSudoku = sudoku;
+            }
+
+            if (bestRemainingClues == targetClues) {
+                break;
+            }
+
+            iteration++;
+        }
+
+        return bestSudoku.getAsBoard();
     }
 
     private boolean fillRandomly(Sudoku sudoku) {
@@ -116,7 +131,46 @@ public class SudokuGenerator {
         return digits;
     }
 
-    private void removeClues(Sudoku sudoku, int targetClues) {
+    private int removeClues(Sudoku sudoku, int targetClues) {
+        int[] indices = new int[81];
+        for (int i = 0; i <= 80; i++) {
+            indices[i] = i;
+        }
+        shuffle(indices);
+
+        int currentClues = 81;
+
+        for (int idx : indices) {
+            if (currentClues <= targetClues) {
+                break;
+            }
+
+            int row1 = idx / 9;
+            int column1 = idx % 9;
+
+            // Skip if already removed
+            int digit1 = sudoku.getDigitAt(row1, column1);
+            if (digit1 == 0){
+                continue;
+            }
+
+            // Tentatively remove
+            sudoku.remove(row1, column1);
+
+            // Check uniqueness
+            SudokuSolver solver = new SudokuSolver(sudoku);
+            if (solver.hasUniqueSolution()) {
+                currentClues -= 1;
+            } else {
+                // Restore — would create multiple solutions
+                sudoku.place(row1, column1, digit1);
+            }
+        }
+
+        return currentClues;
+    }
+
+    private void removeCluesSymmetric(Sudoku sudoku, int targetClues) {
         // Build a shuffled list of cell indices to try removing.
         // Only include one cell per symmetric pair (i.e., indices 0..40).
         // Index 40 is the center cell (4,4), which is its own mirror.

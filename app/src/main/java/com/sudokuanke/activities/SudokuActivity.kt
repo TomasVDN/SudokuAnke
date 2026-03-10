@@ -32,7 +32,7 @@ class SudokuActivity : ComponentActivity() {
 
         if (boardAsString == null) {
             val generator = SudokuGenerator()
-            sudoku.init(generator.generate(SudokuGenerator.Difficulty.EASY))
+            sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
         } else {
             sudoku.init(SudokuUtil.fromString(boardAsString))
         }
