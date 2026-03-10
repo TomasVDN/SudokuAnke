@@ -27,7 +27,7 @@ class SudokuActivity : ComponentActivity() {
         val grid = findViewById<SudokuGridView>(R.id.sudokuGridView)
         val sudoku: Sudoku = SudokuImpl()
 
-        val undoer: Undoer = Undoer()
+        val undoer = Undoer()
         grid.setUndoer(undoer)
 
         if (boardAsString == null) {

@@ -38,6 +38,7 @@ class SudokuGridView(context: Context, attrs: AttributeSet? = null) : GridLayout
             val col = i % columnCount
             val digit = sudoku.getDigitAt(row, col)
             cell.value = if (digit == 0) null else digit
+            if (digit != 0 && sudoku.digitAtIsOriginal(row, col)) cell.isFixed = true
             cell.invalidate()
         }
     }

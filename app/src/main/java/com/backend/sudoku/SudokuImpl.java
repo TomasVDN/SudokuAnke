@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 public class SudokuImpl implements Sudoku {
 
     private final int[] valuesInOrder = new int[81];
+    private final boolean[] isOriginalValue = new boolean[81];
     private final int[] rowValues = new int[9];
     private final int[] columnValues = new int[9];
     private final int[] boxValues = new int[9];
@@ -25,6 +26,7 @@ public class SudokuImpl implements Sudoku {
             for (int column = 0; column < 9; column++) {
                 if (board[row][column] != 0) {
                     place(row, column, board[row][column]);
+                    isOriginalValue[row * 9 + column] = true;
                 }
             }
         }
@@ -51,6 +53,7 @@ public class SudokuImpl implements Sudoku {
             }
 
             for (int value : row) {
+                //TODO[Tomas] bump minimum api level
                 if (!predicate.test(value)) {
                     throw new IllegalArgumentException("Invalid value provided: " + value);
                 }
@@ -62,6 +65,11 @@ public class SudokuImpl implements Sudoku {
 
     @Override
     public void place(int row, int column, int digit) {
+        // Original value, do not override
+        if (digitAtIsOriginal(row, column)) {
+            return;
+        }
+
         // As 0 is the internal representation for an empty field, people might be tempted to place 0.
         // If someone attempts to do that, perform a remove operation instead
         if (digit == 0) {
@@ -107,6 +115,11 @@ public class SudokuImpl implements Sudoku {
     @Override
     public int getDigitAt(int row, int column) {
         return valuesInOrder[row * 9 + column];
+    }
+
+    @Override
+    public boolean digitAtIsOriginal(int row, int column) {
+        return isOriginalValue[row * 9 + column];
     }
 
     @Override

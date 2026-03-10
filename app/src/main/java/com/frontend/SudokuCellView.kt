@@ -31,7 +31,7 @@ class SudokuCellView(context: Context, attrs: AttributeSet? = null) : View(conte
 
     override fun onDraw(canvas: Canvas) {
         // Background
-        if (isCellSelected) canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), highlightPaint)
+        if (isCellSelected && !isFixed) canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), highlightPaint)
 
         // Border
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), borderPaint)
@@ -41,7 +41,7 @@ class SudokuCellView(context: Context, attrs: AttributeSet? = null) : View(conte
             textPaint.color = when {
                 hasConflict -> Color.RED
                 isFixed -> Color.BLACK
-                else -> Color.BLUE
+                else -> Color.MAGENTA
             }
             canvas.drawText(it.toString(), width / 2f, height / 2f - (textPaint.descent() + textPaint.ascent()) / 2, textPaint)
         }

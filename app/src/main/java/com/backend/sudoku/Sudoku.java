@@ -15,6 +15,8 @@ public interface Sudoku {
 
     int getDigitAt(int row, int column);
 
+    boolean digitAtIsOriginal(int row, int column);
+
     boolean canPlaceAt(int row, int column, int digitToTest);
 
     List<Integer> getCandidates(int row, int column);
