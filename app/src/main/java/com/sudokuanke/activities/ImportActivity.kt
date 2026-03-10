@@ -5,16 +5,21 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
 import com.backend.ocr.SudokuReader
-import com.backend.ocr.SudokuReaderUtil
 import com.backend.sudoku.SudokuUtil
 import com.google.mlkit.vision.common.InputImage
 import com.sudokuanke.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class ImportActivity : ComponentActivity() {
@@ -41,10 +46,6 @@ class ImportActivity : ComponentActivity() {
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
-                if (photoUri == null) {
-                    Log.e("empty uri", "")
-                    return@registerForActivityResult
-                }
                 imageView.setImageURI(photoUri)
             } else {
                 Log.e("Error", "Take picture unsuccessful")
@@ -52,24 +53,28 @@ class ImportActivity : ComponentActivity() {
         }
 
     private fun startCameraCapture() {
-        val photoFile = createImageFile()
-        this.imageView =  findViewById<ImageView>(R.id.image_view)
-        Log.i("PACKAGENAME", "${packageName}")
-        this.photoUri = FileProvider.getUriForFile(
-            this,
-            "${packageName}.provider",
-            photoFile
-        )
-        this.photoUriSet = true
+        imageView = findViewById<ImageView>(R.id.image_view)
+        imageView.visibility = View.VISIBLE
+        lifecycleScope.launch {
+            val photoFile = withContext(Dispatchers.IO) {
+                createImageFile()
+            }
+            photoUri = FileProvider.getUriForFile(
+                this@ImportActivity,
+                "${packageName}.provider",
+                photoFile
+            )
+            photoUriSet = true
 
-        takePictureLauncher.launch(photoUri)
+            takePictureLauncher.launch(photoUri)
+        }
     }
 
     private fun createImageFile(): File {
         return File.createTempFile(
             "IMG_",
             ".jpg",
-           filesDir
+            filesDir
         )
     }
 
@@ -79,13 +84,20 @@ class ImportActivity : ComponentActivity() {
             return
         }
 
-        Log.i("Sudoku", "Calling SudokuReader")
-        val image = InputImage.fromFilePath(applicationContext, photoUri)
-        sudokuReader.setImage(image)
-        sudokuReader.readSudoku() { sudoku ->
-            val prettyPrint = SudokuReaderUtil.prettyPrintSudoku(sudoku)
-            Log.i("Sudoku", prettyPrint)
-            startInsertActivity(SudokuUtil.toString(sudoku))
+        val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
+        progressBar.visibility = View.VISIBLE
+        imageView.visibility = View.GONE
+
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val image = InputImage.fromFilePath(applicationContext, photoUri)
+                sudokuReader.setImage(image)
+            }
+
+            sudokuReader.readSudoku() { sudoku ->
+                progressBar.visibility = View.GONE
+                startInsertActivity(SudokuUtil.toString(sudoku))
+            }
         }
     }
 

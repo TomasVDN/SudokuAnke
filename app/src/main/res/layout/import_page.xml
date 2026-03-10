@@ -23,6 +23,13 @@
         android:text="Read sudoku from picture"
     />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
     <com.sudokuanke.ui.DotImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
