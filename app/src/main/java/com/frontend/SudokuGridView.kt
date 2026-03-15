@@ -19,6 +19,7 @@ class SudokuGridView(context: Context, attrs: AttributeSet? = null) : GridLayout
 
     fun setSudoku(sudoku: Sudoku) {
         this.sudoku = sudoku
+        clearFixed()
         refreshValues()
     }
 
@@ -29,6 +30,13 @@ class SudokuGridView(context: Context, attrs: AttributeSet? = null) : GridLayout
     fun setSelectedDigit(selectedDigit: Int) {
         this.selectedDigit = selectedDigit
         refreshValues()
+    }
+
+    fun clearFixed() {
+        for (i in 0 until childCount) {
+            val cell = getChildAt(i) as SudokuCellView
+            cell.isFixed = false
+        }
     }
 
     fun refreshValues() {

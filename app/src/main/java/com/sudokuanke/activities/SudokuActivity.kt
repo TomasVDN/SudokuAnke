@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.constraintlayout.helper.widget.Grid
 import com.backend.sudoku.Sudoku
 import com.backend.sudoku.SudokuGenerator
 import com.backend.sudoku.SudokuImpl
@@ -17,6 +18,10 @@ import com.frontend.Undoer
 import com.sudokuanke.R
 
 class SudokuActivity : ComponentActivity() {
+    var sudoku : Sudoku = SudokuImpl()
+    lateinit var grid : SudokuGridView
+    var generator : SudokuGenerator = SudokuGenerator()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val boardAsString : String? = intent.extras?.getString("board")
 
@@ -24,14 +29,12 @@ class SudokuActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.sudoku_page)
 
-        val grid = findViewById<SudokuGridView>(R.id.sudokuGridView)
-        val sudoku: Sudoku = SudokuImpl()
+        grid= findViewById(R.id.sudokuGridView)
 
         val undoer = Undoer()
         grid.setUndoer(undoer)
 
         if (boardAsString == null) {
-            val generator = SudokuGenerator()
             sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
         } else {
             sudoku.init(SudokuUtil.fromString(boardAsString))
@@ -109,12 +112,16 @@ class SudokuActivity : ComponentActivity() {
 
     }
     private fun showDialog(title: String, message: String) {
+
+
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton("New game") { _, _ ->
-                //sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
-                //grid.setSudoku(sudoku)
+                sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
+                grid.setSudoku(sudoku)
+                val undoer = Undoer()
+                grid.setUndoer(undoer)
             }
             .setNegativeButton("Keep playing") { dialog, _ ->
                 dialog.dismiss()

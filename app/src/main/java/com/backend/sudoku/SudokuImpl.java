@@ -35,6 +35,7 @@ public class SudokuImpl implements Sudoku {
     private void clear() {
         // Reset all the arrays
         Arrays.fill(valuesInOrder, 0);
+        Arrays.fill(isOriginalValue, false);
         Arrays.fill(rowValues, 0);
         Arrays.fill(columnValues, 0);
         Arrays.fill(boxValues, 0);
