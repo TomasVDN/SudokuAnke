@@ -1,5 +1,7 @@
 package com.backend.ocr;
 
+import android.util.Pair;
+
 public interface Callback {
-    void onComplete(int[][] sudoku);
+    void onComplete(Pair<int[][], Integer> sudoku);
 }

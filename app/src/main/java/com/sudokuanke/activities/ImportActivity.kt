@@ -1,13 +1,12 @@
 package com.sudokuanke.activities
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,31 +29,22 @@ class ImportActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.import_page)
 
-        val takeImageButton = findViewById<Button>(R.id.take_image_button)
-        takeImageButton?.setOnClickListener {
-            startCameraCapture()
-        }
-        val readImageButton = findViewById<Button>(R.id.read_image_button)
-        readImageButton?.setOnClickListener {
-            readSudoku()
-        }
+        startCameraCapture()
     }
 
     private var photoUriSet: Boolean = false
     private lateinit var photoUri: Uri
-    private lateinit var imageView: ImageView
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
-                imageView.setImageURI(photoUri)
+                readSudoku()
             } else {
-                Log.e("Error", "Take picture unsuccessful")
+                Log.e("ImportActivity", "Take picture unsuccessful")
+                finish()
             }
         }
 
     private fun startCameraCapture() {
-        imageView = findViewById<ImageView>(R.id.image_view)
-        imageView.visibility = View.VISIBLE
         lifecycleScope.launch {
             val photoFile = withContext(Dispatchers.IO) {
                 createImageFile()
@@ -80,13 +70,12 @@ class ImportActivity : ComponentActivity() {
 
     private fun readSudoku() {
         if (!photoUriSet) {
-            Log.i("Sudoku", "photoUri not initialized")
+            Log.i("ImportActivity", "photoUri not initialized")
             return
         }
 
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
         progressBar.visibility = View.VISIBLE
-        imageView.visibility = View.GONE
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -94,17 +83,41 @@ class ImportActivity : ComponentActivity() {
                 sudokuReader.setImage(image)
             }
 
-            sudokuReader.readSudoku() { sudoku ->
+            sudokuReader.readSudoku() { sudokuWithNumberOfIssues ->
                 progressBar.visibility = View.GONE
-                startInsertActivity(SudokuUtil.toString(sudoku))
+                val numberOfIssues = sudokuWithNumberOfIssues.second
+                val sudoku = SudokuUtil.toString(sudokuWithNumberOfIssues.first)
+                if (sudokuWithNumberOfIssues.second > 0) {
+                    startInsertActivityIfUserAccepts(sudoku, numberOfIssues)
+                } else {
+                    startInsertActivity(sudoku)
+                }
             }
         }
     }
 
-    private fun startInsertActivity(boardAsString : String) {
+    private fun startInsertActivity(boardAsString: String) {
         val intent = Intent(this, InsertActivity::class.java)
         intent.putExtra("board", boardAsString)
         finish()
         startActivity(intent)
+    }
+
+    private fun startInsertActivityIfUserAccepts(boardAsString: String, numberOfIssues: Int) {
+        runOnUiThread {
+            AlertDialog.Builder(this)
+                .setTitle("⚠\uFE0F Issues")
+                .setMessage("We found $numberOfIssues issue${if (numberOfIssues != 1) "s" else ""} \uD83D\uDE2D")
+                .setPositiveButton("Continue") { _, _ ->
+                    startInsertActivity(boardAsString)
+                }
+                .setNegativeButton("Cancel") { _, _ ->
+                    finish()
+                }
+                .setOnDismissListener {
+                    finish()
+                }
+                .show()
+        }
     }
 }

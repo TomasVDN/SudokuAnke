@@ -1,7 +1,6 @@
 package com.backend.ocr;
 
 import android.graphics.Rect;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -56,14 +55,13 @@ public class CharactersReader {
         for (Text.TextBlock block : result.getTextBlocks()) {
             for (Text.Line line : block.getLines()) {
                 for (Text.Element element : line.getElements()) {
+                    int value = 0;
                     if (stringIsInt(element.getText())) {
-                        int value = stringToInt(element.getText());
-                        Rect elementBoundingBox = element.getBoundingBox();
-                        boundedCharacters.characters.add(new BoundedCharacter(value, elementBoundingBox));
-                        boundedCharacters.boundingBox.union(elementBoundingBox);
-                    } else {
-                        Log.d("not an int", element.getText());
+                        value = stringToInt(element.getText());
                     }
+                    Rect elementBoundingBox = element.getBoundingBox();
+                    boundedCharacters.characters.add(new BoundedCharacter(value, elementBoundingBox));
+                    boundedCharacters.boundingBox.union(elementBoundingBox);
                 }
             }
         }
