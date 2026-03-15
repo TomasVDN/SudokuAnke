@@ -7,12 +7,23 @@ import com.google.mlkit.vision.text.Text;
 
 public class SudokuReader {
     private final CharactersReader charactersReader = new CharactersReader();
+    private float[] dots = new float[8];
+    private InputImage inputImage;
 
-    public void setImage(InputImage image) {
-        this.charactersReader.setImage(image);
+    public void setImage(InputImage inputImage) {
+        this.inputImage = inputImage;
+    }
+
+    public void setDots(float[] dots) {
+        if (dots.length == 8) {
+            this.dots = dots;
+        } else {
+            throw new IllegalArgumentException("You donkey :)");
+        }
     }
 
     public void readSudoku(Callback callback) {
+        charactersReader.setImage(inputImage);
         Task<Text> task = charactersReader.readText();
         task.addOnSuccessListener(text -> {
             int[][] sudoku = makeSudokuFromText(text);

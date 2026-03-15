@@ -2,21 +2,22 @@ package com.sudokuanke.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import com.backend.ocr.SudokuReader
-import com.backend.sudoku.SudokuUtil
+import com.backend.ocr.TranslationApplier
 import com.google.mlkit.vision.common.InputImage
 import com.sudokuanke.R
+import com.sudokuanke.ui.DotImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,7 +43,7 @@ class ImportActivity : ComponentActivity() {
 
     private var photoUriSet: Boolean = false
     private lateinit var photoUri: Uri
-    private lateinit var imageView: ImageView
+    private lateinit var imageView: DotImageView
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
@@ -53,7 +54,7 @@ class ImportActivity : ComponentActivity() {
         }
 
     private fun startCameraCapture() {
-        imageView = findViewById<ImageView>(R.id.image_view)
+        imageView = findViewById<DotImageView>(R.id.image_view)
         imageView.visibility = View.VISIBLE
         lifecycleScope.launch {
             val photoFile = withContext(Dispatchers.IO) {
@@ -89,16 +90,43 @@ class ImportActivity : ComponentActivity() {
         imageView.visibility = View.GONE
 
         lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
+            val imageTranslated = withContext(Dispatchers.IO) {
                 val image = InputImage.fromFilePath(applicationContext, photoUri)
-                sudokuReader.setImage(image)
+                val imageTranslated = getTranslatedImage(image)
+                imageTranslated
+               // sudokuReader.setImage(imageTranslated)
             }
 
-            sudokuReader.readSudoku() { sudoku ->
-                progressBar.visibility = View.GONE
-                startInsertActivity(SudokuUtil.toString(sudoku))
-            }
+            imageView.setImageBitmap(imageTranslated.bitmapInternal)
+
+
+            progressBar.visibility = View.GONE
+            imageView.visibility = View.VISIBLE
+        //    sudokuReader.readSudoku() { sudoku ->
+        //        progressBar.visibility = View.GONE
+        //        //startInsertActivity(SudokuUtil.toString(sudoku))
+        //    }
         }
+    }
+
+    private fun getFloatArrayDots(): FloatArray? {
+        val dots = imageView.getDotsInBitmapCoordinates()
+        if (dots.size == 4) {
+            val floatArray = FloatArray(dots.size * 2)
+            for (i in dots.indices) {
+                floatArray[i * 2] = dots[i].y
+                floatArray[i * 2 + 1] = dots[i].x
+            }
+            return floatArray
+        }
+        return null
+    }
+    private fun getTranslatedImage(inputImage: InputImage): InputImage {
+        val dots = getFloatArrayDots() ?: return inputImage
+
+        val inputBitmap = inputImage.bitmapInternal
+        val outputBitmap = TranslationApplier.translateImage(inputBitmap, dots)
+        return InputImage.fromBitmap(outputBitmap, 0)
     }
 
     private fun startInsertActivity(boardAsString : String) {
