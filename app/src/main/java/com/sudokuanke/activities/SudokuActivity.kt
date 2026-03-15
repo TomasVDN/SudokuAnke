@@ -2,11 +2,15 @@ package com.sudokuanke.activities
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.graphics.drawable.AnimationDrawable
+import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-import androidx.constraintlayout.helper.widget.Grid
 import com.backend.sudoku.Sudoku
 import com.backend.sudoku.SudokuGenerator
 import com.backend.sudoku.SudokuImpl
@@ -97,23 +101,31 @@ class SudokuActivity : ComponentActivity() {
             SudokuUtil.saveToDisk(applicationContext,findViewById<EditText>(R.id.sudokuName).text.toString(), sudoku.asBoard)
         }
 
+        val fireworksImage = findViewById<ImageView>(R.id.fireworksImage)
+
         grid.checkValidity = {
             if (sudoku.isComplete) {
                 if (sudoku.isValid) {
-                    showDialog("🎉 You won!", "Congratulations, you solved the puzzle!")
+                    grid.visibility = View.INVISIBLE
+                    fireworksImage.visibility = View.VISIBLE
+                    (fireworksImage.drawable as AnimationDrawable).start()
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        (fireworksImage.drawable as AnimationDrawable).stop()
+                        fireworksImage.visibility = View.GONE
+                        grid.visibility = View.VISIBLE
+                        showDialog("🎉 You won!", "Congratulations, you solved the puzzle!")
+                    }, 5000)
                 } else {
                     showDialog("❌ Not quite...", "The board is complete but contains errors.")
                 }
             }
-
-
         }
 
 
     }
+
     private fun showDialog(title: String, message: String) {
-
-
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
@@ -132,4 +144,5 @@ class SudokuActivity : ComponentActivity() {
     private fun exit() {
         finish()
     }
+
 }

@@ -14,4 +14,17 @@
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/sudokuGridView"/>
 
+    <ImageView
+        android:id="@+id/fireworksImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:contentDescription="@string/u_blind"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/fireworks_animation"
+        android:scaleType="fitCenter"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

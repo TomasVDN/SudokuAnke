@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SudokuAnke</string>
+    <string name="u_blind">u blind</string>
 </resources>
