@@ -1,14 +1,12 @@
 package com.sudokuanke.activities
 
 import android.app.AlertDialog
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.graphics.drawable.AnimationDrawable
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import com.backend.sudoku.Sudoku
@@ -101,23 +99,12 @@ class SudokuActivity : ComponentActivity() {
             SudokuUtil.saveToDisk(applicationContext,findViewById<EditText>(R.id.sudokuName).text.toString(), sudoku.asBoard)
         }
 
-        val fireworksImage = findViewById<ImageView>(R.id.fireworksImage)
-
         grid.checkValidity = {
             if (sudoku.isComplete) {
                 if (sudoku.isValid) {
-                    grid.visibility = View.INVISIBLE
-                    fireworksImage.visibility = View.VISIBLE
-                    (fireworksImage.drawable as AnimationDrawable).start()
-
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        (fireworksImage.drawable as AnimationDrawable).stop()
-                        fireworksImage.visibility = View.GONE
-                        grid.visibility = View.VISIBLE
-                        showDialog("🎉 You won!", "Congratulations, you solved the puzzle!")
-                    }, 5000)
+                    showWinDialog()
                 } else {
-                    showDialog("❌ Not quite...", "The board is complete but contains errors.")
+                    showLoseDialog()
                 }
             }
         }
@@ -125,19 +112,57 @@ class SudokuActivity : ComponentActivity() {
 
     }
 
-    private fun showDialog(title: String, message: String) {
-        AlertDialog.Builder(this)
-            .setTitle(title)
-            .setMessage(message)
+    private fun showWinDialog() {
+        val imageView = ImageView(this).apply {
+            setImageResource(R.drawable.fireworks_animation)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                resources.getDimensionPixelSize(R.dimen.fireworks_dialog_height)
+            )
+            scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("🎉 You won!")
+            .setMessage("Congratulations, you solved the puzzle!")
+            .setView(imageView)
             .setPositiveButton("New game") { _, _ ->
                 sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
                 grid.setSudoku(sudoku)
-                val undoer = Undoer()
-                grid.setUndoer(undoer)
+                grid.setUndoer(Undoer())
             }
-            .setNegativeButton("Keep playing") { dialog, _ ->
-                dialog.dismiss()
+            .setNegativeButton("Keep playing") { d, _ -> d.dismiss() }
+            .create()
+
+        dialog.setOnShowListener {
+            (imageView.drawable as AnimationDrawable).start()
+        }
+        dialog.setOnDismissListener {
+            (imageView.drawable as AnimationDrawable).stop()
+        }
+        dialog.show()
+    }
+
+    private fun showLoseDialog() {
+        val imageView = ImageView(this).apply {
+            setImageResource(R.drawable.kut)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                resources.getDimensionPixelSize(R.dimen.fireworks_dialog_height)
+            )
+            scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("❌ Not quite...")
+            .setMessage("The board is complete but contains errors.")
+            .setView(imageView)
+            .setPositiveButton("New game") { _, _ ->
+                sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
+                grid.setSudoku(sudoku)
+                grid.setUndoer(Undoer())
             }
+            .setNegativeButton("Keep playing") { d, _ -> d.dismiss() }
             .show()
     }
 
