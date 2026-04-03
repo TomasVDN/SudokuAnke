@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,62 +13,72 @@
         android:layout_marginTop="30pt"
         android:layout_marginBottom="30pt"
         android:layout_gravity="center_horizontal"
-        android:text="A Sudoku for Anke"
+        android:text="@string/a_sudoku_for_anke"
         android:textAlignment="center"
-        android:textSize="12pt"></TextView>
+        android:textSize="12pt"/>
 
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_weight="2"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
-    <!-- Left side spacer -->
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
-            <LinearLayout
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:orientation="vertical" >
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/startButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Start new game" />
+            <com.frontend.ShinyButton
+                android:id="@+id/startButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/start_new_game"
+                android:maxLines="1"/>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Load"
-                    android:id="@+id/loadButton"/>
+            <com.frontend.ShinyButton
+                android:id="@+id/loadButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/load"
+                android:maxLines="1"/>
 
-                <Button
-                    android:id="@+id/insertBoardButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Insert board"/>
+            <com.frontend.ShinyButton
+                android:id="@+id/insertBoardButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/insert_board"
+                android:maxLines="1"/>
 
-                <Button
-                    android:id="@+id/importBoardButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Import board"/>
+            <com.frontend.ShinyButton
+                android:id="@+id/importBoardButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/import_board"
+                android:maxLines="1"/>
 
-            </LinearLayout>
+            <com.frontend.ShinyButton
+                android:id="@+id/settingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/settings"
+                android:maxLines="1"/>
 
-            <!-- Right side spacer -->
+        </LinearLayout>
+
         <View
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 

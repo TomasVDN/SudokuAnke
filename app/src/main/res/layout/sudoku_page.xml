@@ -1,88 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="30pt"
-    android:layout_marginBottom="10pt"
-    android:layout_marginLeft="10pt"
-    android:layout_marginRight="10pt">
+    android:paddingTop="30pt"
+    android:paddingBottom="10pt"
+    android:paddingLeft="10pt"
+    android:paddingRight="10pt">
 
     <include layout="@layout/grid"/>
 
     <com.frontend.NumberSelector
         android:id="@+id/numberSelector"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="10pt" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp" />
+
+    <!-- Undo | Undo all -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/emptyButton"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Empty" />
+        android:layout_marginTop="8dp">
+
+        <com.frontend.ShinyButton
+            android:id="@+id/undoButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/undo_for_the_weak"
+            android:textSize="11sp"
+            android:maxLines="1"/>
+
+        <com.frontend.ShinyButton
+            android:id="@+id/undoUntilValidButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/undo_all_for_the_bad"
+            android:textSize="11sp"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+
+    <!-- Solve -->
+    <com.frontend.ShinyButton
+        android:id="@+id/solveButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/solve_for_the_cheaters"
+        android:textSize="11sp"
+        android:maxLines="1"/>
+
+    <!-- Empty -->
+    <com.frontend.ShinyButton
+        android:id="@+id/emptyButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/empty"
+        android:maxLines="1"/>
+
+    <!-- Save row -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
 
         <EditText
             android:id="@+id/sudokuName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
             android:inputType="text"
-            android:hint="Sudoku name"
+            android:hint="@string/sudoku_name"
             android:text=""/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Exit"
-            android:id="@+id/exitButton"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
+        <com.frontend.ShinyButton
             android:id="@+id/saveButton"
-            />
-        <Button
-            android:id="@+id/solveButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Solve (for the cheaters)"
-            android:textSize="5pt" />
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/save"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Undo (for the weak)"
-            android:textSize="5pt"
-            android:id="@+id/undoButton"
-            />
-
-        <Button
-            android:id="@+id/undoUntilValidButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Undo all (for the bad)"
-            android:textSize="5pt" />
     </LinearLayout>
 
 </LinearLayout>

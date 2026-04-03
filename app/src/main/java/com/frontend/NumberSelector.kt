@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.widget.GridLayout
-import androidx.core.view.size
 
 class NumberSelector(context: Context, attrs: AttributeSet? = null) : GridLayout(context, attrs) {
 
@@ -36,11 +35,11 @@ class NumberSelector(context: Context, attrs: AttributeSet? = null) : GridLayout
                 value = null
                 setOnClickListener { onCellClicked(index) }
             }
-            val params = GridLayout.LayoutParams().apply {
+            val params = LayoutParams().apply {
                 width = 0
                 height = 0
-                columnSpec = GridLayout.spec(index, 1f)
-                rowSpec = GridLayout.spec(0, 1f)
+                columnSpec = spec(index, 1f)
+                rowSpec = spec(0, 1f)
             }
             addView(cell, params)
         }
@@ -56,6 +55,12 @@ class NumberSelector(context: Context, attrs: AttributeSet? = null) : GridLayout
         onDigitSelected?.invoke(index)
     }
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val w = MeasureSpec.getSize(widthMeasureSpec)
+        val cellSize = w / columnCount
+        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(cellSize, MeasureSpec.EXACTLY))
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val cellW = width / columnCount.toFloat()
@@ -66,7 +71,7 @@ class NumberSelector(context: Context, attrs: AttributeSet? = null) : GridLayout
             // horizontal lines
             canvas.drawLine(0f, i * cellH, width.toFloat(), i * cellH, paint)
 
-            val text =  if (i == 0) "X" else i.toString();
+            val text = if (i == 0) "X" else i.toString()
             canvas.drawText(text, i * cellW + cellW / 2f, 2 * cellH / 3f, paintText)
         }
     }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,48 +14,62 @@
     <com.frontend.NumberSelector
         android:id="@+id/numberSelector"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="10pt" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Exit"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <com.frontend.ShinyButton
             android:id="@+id/exitButton"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Undo (for the crazy)"
-            android:textSize="5pt"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/exit"
+            android:maxLines="1"/>
+
+        <com.frontend.ShinyButton
             android:id="@+id/undoButton"
-            />
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/undo_for_the_crazy"
+            android:textSize="11sp"
+            android:maxLines="1"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:id="@+id/saveButton"/>
         <EditText
             android:id="@+id/sudokuName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="8"
+            android:autofillHints=""
             android:inputType="text"
-            android:text=""
-            android:hint="Sudoku name" />
+            android:hint="@string/sudoku_name"
+            android:text=""/>
+
+        <com.frontend.ShinyButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/save"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"/>
+
     </LinearLayout>
 
 </LinearLayout>
