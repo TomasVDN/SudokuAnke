@@ -105,6 +105,17 @@
     </ScrollView>
 
     <com.frontend.ShinyButton
+        android:id="@+id/saveButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:text="@string/save"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@id/resetButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.frontend.ShinyButton
         android:id="@+id/resetButton"
         android:layout_width="0dp"
         android:layout_height="48dp"

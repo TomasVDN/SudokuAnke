@@ -28,7 +28,7 @@ class SettingsActivity : ComponentActivity() {
         ColorEntry("Selected cell",       ColorPrefs.CELL_HIGHLIGHT),
         ColorEntry("Your digits",         ColorPrefs.DIGIT_USER),
         ColorEntry("Fixed digits",        ColorPrefs.DIGIT_FIXED),
-        ColorEntry("Conflicts",           ColorPrefs.DIGIT_CONFLICT),
+        //TODO read when the conflicts are implemented ColorEntry("Conflicts",           ColorPrefs.DIGIT_CONFLICT),
         ColorEntry("Number highlight",    ColorPrefs.NUMBER_SELECTED_BACKGROUND),
     )
 
@@ -41,6 +41,7 @@ class SettingsActivity : ComponentActivity() {
         val shineColorsSection   = findViewById<LinearLayout>(R.id.shineColorsSection)
         val gameColorsContainer  = findViewById<LinearLayout>(R.id.gameColorsContainer)
         val resetButton          = findViewById<ShinyButton>(R.id.resetButton)
+        val saveButton           = findViewById<ShinyButton>(R.id.saveButton)
 
         fun applyShineVisibility(shineOn: Boolean) {
             buttonColorsSection.visibility = if (shineOn) android.view.View.GONE else android.view.View.VISIBLE
@@ -72,6 +73,8 @@ class SettingsActivity : ComponentActivity() {
             applyShineVisibility(shineSwitch.isChecked)
             populateAll()
         }
+
+        saveButton.setOnClickListener { finish() }
     }
 
     private fun addColorRow(container: LinearLayout, entry: ColorEntry) {
