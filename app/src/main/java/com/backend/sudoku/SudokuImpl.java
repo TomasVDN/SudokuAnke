@@ -1,5 +1,7 @@
 package com.backend.sudoku;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +19,7 @@ public class SudokuImpl implements Sudoku {
     }
 
     @Override
-    public void init(int[][] board) {
+    public void init(int[][] board, @Nullable boolean[] originalList) {
         performSanityChecks(board);
 
         clear();
@@ -26,7 +28,7 @@ public class SudokuImpl implements Sudoku {
             for (int column = 0; column < 9; column++) {
                 if (board[row][column] != 0) {
                     place(row, column, board[row][column]);
-                    isOriginalValue[row * 9 + column] = true;
+                    isOriginalValue[row * 9 + column] = originalList == null || originalList[row * 9 + column];
                 }
             }
         }
@@ -98,6 +100,8 @@ public class SudokuImpl implements Sudoku {
         valuesInOrder[row * 9 + column] = digit;
     }
 
+
+
     @Override
     public void remove(int row, int column) {
         int digit = getDigitAt(row, column);
@@ -121,6 +125,11 @@ public class SudokuImpl implements Sudoku {
         }
 
         return board;
+    }
+
+    @Override
+    public boolean[] getOriginalList() {
+        return isOriginalValue;
     }
 
     @Override

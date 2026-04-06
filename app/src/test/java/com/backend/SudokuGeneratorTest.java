@@ -16,7 +16,7 @@ public class SudokuGeneratorTest {
         int[][] puzzle = generator.generate(SudokuGenerator.Difficulty.MEDIUM);
 
         Sudoku sudoku = new SudokuImpl();
-        sudoku.init(puzzle);
+        sudoku.init(puzzle, null);
         SudokuSolver solver = new SudokuSolver(sudoku);
         solver.solve();
 
@@ -24,7 +24,7 @@ public class SudokuGeneratorTest {
 
         int[][] puzzleHard = generator.generate(SudokuGenerator.Difficulty.EVIL);
 
-        sudoku.init(puzzleHard);
+        sudoku.init(puzzleHard, null);
         solver = new SudokuSolver(sudoku);
         solver.solve();
 

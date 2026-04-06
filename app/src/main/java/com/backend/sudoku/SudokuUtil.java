@@ -1,6 +1,7 @@
 package com.backend.sudoku;
 
 import android.content.Context;
+import android.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,9 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SudokuUtil {
-
-    private static final String FILENAME = "saveFile";
-
     public static int[][] fromString(String input) {
         if (input.length() != 81) {
             throw new IllegalArgumentException();
@@ -65,7 +63,7 @@ public class SudokuUtil {
         return dir;
     }
 
-    public static boolean saveToDisk(Context context, String name, int[][] board) throws IOException {
+    public static boolean saveToDisk(Context context, String name, int[][] board, boolean[] originalList) throws IOException {
         String boardAsString = toString(board);
         if (!checkName(name)) {
             return false;
@@ -75,24 +73,30 @@ public class SudokuUtil {
         try (RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
             raf.setLength(0);
             raf.writeBytes(boardAsString);
+            raf.writeBytes("\n");
+            // Writes a 1 if the value is an original value, otherwise write a 0
+            for (boolean value : originalList) {
+                raf.writeBytes(value ? "1" : "0");
+            }
         }
         return true;
     }
 
     // TODO[Tomas] handle exception in the callers... For now, the app crashes :D
-    public static int[][] getFromDisk(Context context, String name) throws IOException {
+    public static Pair<int[][], String> getFromDisk(Context context, String name) throws IOException {
         File file = new File(getSudokuDir(context), name);
 
         try (RandomAccessFile raf = new RandomAccessFile(file, "r")) {
-            return fromString(raf.readLine());
+            return new Pair<>(fromString(raf.readLine()), raf.readLine());
         }
     }
 
     public static String getFromDiskAsString(Context context, String name) throws IOException {
-        return toString(getFromDisk(context, name));
+        Pair<int[][], String> fromDiskPair = getFromDisk(context, name);
+        return toString(fromDiskPair.first) + " " + fromDiskPair.second;
     }
 
-    public static void deleteSave(Context context, String name) throws IOException {
+    public static void deleteSave(Context context, String name) {
         File file = new File(getSudokuDir(context), name);
         file.delete();
     }

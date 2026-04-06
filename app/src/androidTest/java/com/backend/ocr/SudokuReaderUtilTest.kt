@@ -1,7 +1,6 @@
 package com.backend.ocr
 
 import android.graphics.Rect
-import com.backend.ocr.SudokuReaderUtil
 import org.junit.Test
 
 class SudokuReaderUtilTest {
@@ -18,10 +17,10 @@ class SudokuReaderUtilTest {
 
         assert(indices00[0] == 0)
         assert(indices00[1] == 0)
-        assert(indices23[0] == 2)
-        assert(indices23[1] == 3)
-        assert(indices08[0] == 0)
-        assert(indices08[1] == 8)
+        assert(indices23[0] == 3)
+        assert(indices23[1] == 2)
+        assert(indices08[0] == 8)
+        assert(indices08[1] == 0)
     }
 
     @Test
@@ -35,8 +34,8 @@ class SudokuReaderUtilTest {
 
         val indices46 = SudokuReaderUtil.indexForBoundingBox(totalBoundingBox, boundingBox46)
 
-        assert(indices46[0] == 4)
-        assert(indices46[1] == 6)
+        assert(indices46[0] == 6)
+        assert(indices46[1] == 4)
     }
 
     @Test
@@ -50,7 +49,7 @@ class SudokuReaderUtilTest {
 
         val indices46 = SudokuReaderUtil.indexForBoundingBox(totalBoundingBox, boundingBox46)
 
-        assert(indices46[0] == 4)
-        assert(indices46[1] == 6)
+        assert(indices46[0] == 6)
+        assert(indices46[1] == 4)
     }
 }

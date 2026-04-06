@@ -2,8 +2,6 @@ package com.backend.sudoku
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.backend.sudoku.SudokuGenerator
-import com.backend.sudoku.SudokuUtil
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,11 +17,11 @@ class SudokuUtilTest {
         val generator = SudokuGenerator()
         val board = generator.generate(SudokuGenerator.Difficulty.EASY)
 
-        var fileName = "helloWorld"
-        SudokuUtil.saveToDisk(appContext, fileName, board)
+        val fileName = "helloWorld"
+        SudokuUtil.saveToDisk(appContext, fileName, board, BooleanArray(81))
         val result = SudokuUtil.getFromDisk(appContext, fileName)
 
-        Assert.assertArrayEquals(board, result)
+        Assert.assertArrayEquals(board, result.first)
     }
 
     // TODO[Tomas] add a test for illegal chars

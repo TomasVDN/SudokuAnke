@@ -4,8 +4,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.backend.ocr.SudokuReader
-import com.backend.ocr.SudokuReaderUtil
 import com.google.mlkit.vision.common.InputImage
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,9 +35,9 @@ class SudokuReaderTest {
         sudokuReader.setImage(image)
 
         val latch = CountDownLatch(1)
-        var sudoku: Array<IntArray>? = null;
+        var sudoku: Array<IntArray>? = null
         sudokuReader.readSudoku() { callback ->
-            sudoku = callback
+            sudoku = callback.first
             latch.countDown()
         }
 

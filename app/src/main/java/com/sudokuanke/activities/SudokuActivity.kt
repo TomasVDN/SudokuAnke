@@ -37,9 +37,16 @@ class SudokuActivity : ComponentActivity() {
         grid.setUndoer(undoer)
 
         if (boardAsString == null) {
-            sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
+            sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL), null)
         } else {
-            sudoku.init(SudokuUtil.fromString(boardAsString))
+            val board = boardAsString.substring(0, 81)
+            val originalValues = boardAsString.substring(82, 163)
+            val originalList = BooleanArray(81)
+            for (index in 0..80) {
+                originalList[index] = originalValues[index] == '1'
+            }
+
+            sudoku.init(SudokuUtil.fromString(board), originalList)
         }
 
         grid.setSudoku(sudoku)
@@ -90,7 +97,12 @@ class SudokuActivity : ComponentActivity() {
         val saveButton = findViewById<Button>(R.id.saveButton)
 
         saveButton.setOnClickListener {
-            SudokuUtil.saveToDisk(applicationContext,findViewById<EditText>(R.id.sudokuName).text.toString(), sudoku.asBoard)
+            SudokuUtil.saveToDisk(
+                applicationContext,
+                findViewById<EditText>(R.id.sudokuName).text.toString(),
+                sudoku.asBoard,
+                sudoku.originalList
+            )
         }
 
         grid.checkValidity = {
@@ -107,7 +119,7 @@ class SudokuActivity : ComponentActivity() {
     }
 
     private fun startNewGame() {
-        sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
+        sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL), null)
         grid.setSudoku(sudoku)
         grid.setUndoer(Undoer())
     }

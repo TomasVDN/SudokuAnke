@@ -34,7 +34,7 @@ public class SudokuTest {
     @Test
     public void initHappyPath() {
         Sudoku sudoku = new SudokuImpl();
-        sudoku.init(TEST_BOARD);
+        sudoku.init(TEST_BOARD, null);
 
         Assert.assertArrayEquals("Board was not equal", TEST_BOARD, sudoku.getAsBoard());
     }
@@ -43,7 +43,7 @@ public class SudokuTest {
     public void illegalLength() {
         Sudoku sudoku = new SudokuImpl();
 
-        Assert.assertThrows(IllegalArgumentException.class, () -> sudoku.init(new int[9][10]));
+        Assert.assertThrows(IllegalArgumentException.class, () -> sudoku.init(new int[9][10], null));
     }
 
     @Test
@@ -53,13 +53,13 @@ public class SudokuTest {
         int[][] illegalBoard = getDeepCopyOfTestBoard();
         illegalBoard[6][6] = 20;
 
-        Assert.assertThrows(IllegalArgumentException.class, () -> sudoku.init(illegalBoard));
+        Assert.assertThrows(IllegalArgumentException.class, () -> sudoku.init(illegalBoard, null));
     }
 
     @Test
     public void placingShouldUpdateBoard() {
         Sudoku sudoku = new SudokuImpl();
-        sudoku.init(TEST_BOARD);
+        sudoku.init(TEST_BOARD, null);
 
         int[][] expectedBoard = getDeepCopyOfTestBoard();
         expectedBoard[5][5] = 9;
@@ -72,7 +72,7 @@ public class SudokuTest {
     @Test
     public void placingShouldOverride() {
         Sudoku sudoku = new SudokuImpl();
-        sudoku.init(TEST_BOARD);
+        sudoku.init(TEST_BOARD, null);
 
         int[][] expectedBoard = getDeepCopyOfTestBoard();
         expectedBoard[0][0] = 9;
@@ -85,7 +85,7 @@ public class SudokuTest {
     @Test
     public void removingShouldUpdateBoard() {
         Sudoku sudoku = new SudokuImpl();
-        sudoku.init(TEST_BOARD);
+        sudoku.init(TEST_BOARD, null);
 
         int[][] expectedBoard = getDeepCopyOfTestBoard();
         expectedBoard[0][0] = 0;
@@ -99,7 +99,7 @@ public class SudokuTest {
     @Test
     public void canPlaceTest() {
         Sudoku sudoku = new SudokuImpl();
-        sudoku.init(TEST_BOARD);
+        sudoku.init(TEST_BOARD, null);
 
         // Not possible to place 1, as it is already present in the box
         Assert.assertFalse(sudoku.canPlaceAt(2, 2, 1));
@@ -117,7 +117,7 @@ public class SudokuTest {
     @Test
     public void getCandidatesSimple() {
         Sudoku sudoku = new SudokuImpl();
-        sudoku.init(TEST_BOARD);
+        sudoku.init(TEST_BOARD, null);
 
         List<Integer> expected_0_0 = List.of();
         Assert.assertEquals(expected_0_0, sudoku.getCandidates(0, 0));
@@ -140,7 +140,7 @@ public class SudokuTest {
         String boardAsString = "326715849519438267847926135638249571271853496495167382183672954752394618964581723";
 
         Sudoku sudoku = new SudokuImpl();
-        sudoku.init(SudokuUtil.fromString(boardAsString));
+        sudoku.init(SudokuUtil.fromString(boardAsString), null);
 
         sudoku.remove(0, 0);
         sudoku.place(0, 0, 3);
@@ -155,7 +155,7 @@ public class SudokuTest {
         String boardAsString = "326715849519438267847926135638249571271853496495167382183672954752394618964581723";
 
         Sudoku sudoku = new SudokuImpl();
-        sudoku.init(SudokuUtil.fromString(boardAsString));
+        sudoku.init(SudokuUtil.fromString(boardAsString), null);
 
         sudoku.place(0, 0, 0);
         sudoku.place(0, 0, 3);

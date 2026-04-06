@@ -26,7 +26,7 @@ class InsertActivity : ComponentActivity() {
         val sudoku: Sudoku = SudokuImpl()
 
         if (boardAsString != null) {
-            sudoku.init(SudokuUtil.fromString(boardAsString))
+            sudoku.init(SudokuUtil.fromString(boardAsString), null)
         }
 
         val undoer = Undoer()
@@ -38,7 +38,6 @@ class InsertActivity : ComponentActivity() {
 
         selector.onDigitSelected = { digit ->
             grid.setSelectedDigit(digit)
-            SudokuUtil.printToSystemOut(sudoku.asBoard)
         }
 
         val exitButton = findViewById<Button>(R.id.exitButton)
@@ -72,7 +71,7 @@ class InsertActivity : ComponentActivity() {
                 return@setOnClickListener
             }
 
-            val success = SudokuUtil.saveToDisk(applicationContext, fileName.text.toString(), sudoku.asBoard)
+            val success = SudokuUtil.saveToDisk(applicationContext, fileName.text.toString(), sudoku.asBoard, sudoku.originalList)
             if (!success) {
                 showDialog(
                     "Loser Alert!",

@@ -1,9 +1,11 @@
 package com.backend.sudoku;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 public interface Sudoku {
-    void init(int[][] board);
+    void init(int[][] board, @Nullable boolean[] originalList);
 
     void clearNonOriginals();
 
@@ -12,6 +14,8 @@ public interface Sudoku {
     void remove(int row, int column);
 
     int[][] getAsBoard();
+
+    boolean[] getOriginalList();
 
     int getDigitAt(int row, int column);
 
