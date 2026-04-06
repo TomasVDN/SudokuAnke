@@ -16,7 +16,7 @@ import com.backend.sudoku.SudokuSolver
 import com.backend.sudoku.SudokuUtil
 import com.frontend.NumberSelector
 import com.frontend.SudokuGridView
-import com.frontend.ToastMaker
+import com.frontend.SudokuSaver
 import com.frontend.Undoer
 import com.sudokuanke.R
 
@@ -96,14 +96,11 @@ class SudokuActivity : ComponentActivity() {
         }
 
         val saveButton = findViewById<Button>(R.id.saveButton)
+        val fileName = findViewById<EditText>(R.id.sudokuName)
         saveButton.setOnClickListener {
-            SudokuUtil.saveToDisk(
-                applicationContext,
-                findViewById<EditText>(R.id.sudokuName).text.toString(),
-                sudoku.asBoard,
-                sudoku.originalList
-            )
-            ToastMaker.showSaveConfirmationMessage(applicationContext, "File saved")
+            val fileNameString: String = fileName.text.toString()
+            val sudokuSaver = SudokuSaver(this)
+            sudokuSaver.saveSudoku(fileNameString, sudoku) {}
         }
 
         grid.checkValidity = {
@@ -115,8 +112,6 @@ class SudokuActivity : ComponentActivity() {
                 }
             }
         }
-
-
     }
 
     private fun startNewGame() {
@@ -170,6 +165,4 @@ class SudokuActivity : ComponentActivity() {
             .setNegativeButton("Keep playing") { d, _ -> d.dismiss() }
             .show()
     }
-
-
 }
