@@ -2,7 +2,6 @@ package com.frontend
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
@@ -17,7 +16,7 @@ class SudokuCellView(context: Context, attrs: AttributeSet? = null) : View(conte
     private val borderPaint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = 2f
-        color = Color.BLACK
+        color = ColorPrefs.getColor(context, ColorPrefs.DIGIT_FIXED)
     }
     private val textPaint = Paint().apply {
         textAlign = Paint.Align.CENTER
@@ -25,23 +24,19 @@ class SudokuCellView(context: Context, attrs: AttributeSet? = null) : View(conte
     }
     private val highlightPaint = Paint().apply {
         style = Paint.Style.FILL
-        color = Color.YELLOW
+        color = ColorPrefs.getColor(context, ColorPrefs.CELL_HIGHLIGHT)
         alpha = 50
     }
 
     override fun onDraw(canvas: Canvas) {
-        // Background
         if (isCellSelected && !isFixed) canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), highlightPaint)
-
-        // Border
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), borderPaint)
 
-        // Text
         value?.let {
             textPaint.color = when {
-                hasConflict -> Color.RED
-                isFixed -> Color.BLACK
-                else -> Color.MAGENTA
+                hasConflict -> ColorPrefs.getColor(context, ColorPrefs.DIGIT_CONFLICT)
+                isFixed     -> ColorPrefs.getColor(context, ColorPrefs.DIGIT_FIXED)
+                else        -> ColorPrefs.getColor(context, ColorPrefs.DIGIT_USER)
             }
             canvas.drawText(it.toString(), width / 2f, height / 2f - (textPaint.descent() + textPaint.ascent()) / 2, textPaint)
         }

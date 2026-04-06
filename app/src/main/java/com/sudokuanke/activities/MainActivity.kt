@@ -5,53 +5,34 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import com.sudokuanke.R
 
-
 class MainActivity : ComponentActivity() {
+
+    private val settingsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        recreate()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.start_page)
 
-        val startButton = findViewById<Button>(R.id.startButton)
-        startButton.setOnClickListener {
-            startSudokuActivity()
+        findViewById<Button>(R.id.startButton).setOnClickListener {
+            startActivity(Intent(this, SudokuActivity::class.java))
         }
-
-        val loadButton = findViewById<Button>(R.id.loadButton)
-        loadButton.setOnClickListener {
-            loadActivity()
+        findViewById<Button>(R.id.loadButton).setOnClickListener {
+            startActivity(Intent(this, LoadActivity::class.java))
         }
-
-        val insertBoardButton = findViewById<Button>(R.id.insertBoardButton)
-        insertBoardButton.setOnClickListener {
-            startInsertBoardActivity()
+        findViewById<Button>(R.id.insertBoardButton).setOnClickListener {
+            startActivity(Intent(this, InsertActivity::class.java))
         }
-
-        val importBoardButton = findViewById<Button>(R.id.importBoardButton)
-        importBoardButton.setOnClickListener {
-            startImportBoardActivity()
+        findViewById<Button>(R.id.importBoardButton).setOnClickListener {
+            startActivity(Intent(this, ImportActivity::class.java))
         }
-    }
-
-    private fun startSudokuActivity() {
-        val intent = Intent(this, SudokuActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun loadActivity() {
-        val intent = Intent(this, LoadActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun startInsertBoardActivity() {
-        val intent = Intent(this, InsertActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun startImportBoardActivity() {
-        val intent = Intent(this, ImportActivity::class.java)
-        startActivity(intent)
+        findViewById<Button>(R.id.settingsButton).setOnClickListener {
+            settingsLauncher.launch(Intent(this, SettingsActivity::class.java))
+        }
     }
 }

@@ -48,12 +48,6 @@ class SudokuActivity : ComponentActivity() {
 
         selector.onDigitSelected = { digit ->
             grid.setSelectedDigit(digit)
-            SudokuUtil.printToSystemOut(sudoku.asBoard)
-        }
-
-        val exitButton = findViewById<Button>(R.id.exitButton)
-        exitButton.setOnClickListener {
-            exit()
         }
 
         val emptyButton = findViewById<Button>(R.id.emptyButton)
@@ -112,6 +106,12 @@ class SudokuActivity : ComponentActivity() {
 
     }
 
+    private fun startNewGame() {
+        sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
+        grid.setSudoku(sudoku)
+        grid.setUndoer(Undoer())
+    }
+
     private fun showWinDialog() {
         val imageView = ImageView(this).apply {
             setImageResource(R.drawable.fireworks_animation)
@@ -126,11 +126,7 @@ class SudokuActivity : ComponentActivity() {
             .setTitle("🎉 You won!")
             .setMessage("Congratulations, you solved the puzzle!")
             .setView(imageView)
-            .setPositiveButton("New game") { _, _ ->
-                sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
-                grid.setSudoku(sudoku)
-                grid.setUndoer(Undoer())
-            }
+            .setPositiveButton("New game") { _, _ -> startNewGame() }
             .setNegativeButton("Keep playing") { d, _ -> d.dismiss() }
             .create()
 
@@ -157,17 +153,10 @@ class SudokuActivity : ComponentActivity() {
             .setTitle("❌ Not quite...")
             .setMessage("The board is complete but contains errors.")
             .setView(imageView)
-            .setPositiveButton("New game") { _, _ ->
-                sudoku.init(generator.generate(SudokuGenerator.Difficulty.EVIL))
-                grid.setSudoku(sudoku)
-                grid.setUndoer(Undoer())
-            }
+            .setPositiveButton("New game") { _, _ -> startNewGame() }
             .setNegativeButton("Keep playing") { d, _ -> d.dismiss() }
             .show()
     }
 
-    private fun exit() {
-        finish()
-    }
 
 }
