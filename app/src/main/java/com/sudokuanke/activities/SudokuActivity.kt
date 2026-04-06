@@ -16,6 +16,7 @@ import com.backend.sudoku.SudokuSolver
 import com.backend.sudoku.SudokuUtil
 import com.frontend.NumberSelector
 import com.frontend.SudokuGridView
+import com.frontend.ToastMaker
 import com.frontend.Undoer
 import com.sudokuanke.R
 
@@ -95,7 +96,6 @@ class SudokuActivity : ComponentActivity() {
         }
 
         val saveButton = findViewById<Button>(R.id.saveButton)
-
         saveButton.setOnClickListener {
             SudokuUtil.saveToDisk(
                 applicationContext,
@@ -103,6 +103,7 @@ class SudokuActivity : ComponentActivity() {
                 sudoku.asBoard,
                 sudoku.originalList
             )
+            ToastMaker.showSaveConfirmationMessage(applicationContext, "File saved")
         }
 
         grid.checkValidity = {

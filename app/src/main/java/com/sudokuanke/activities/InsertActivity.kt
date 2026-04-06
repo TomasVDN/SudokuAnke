@@ -11,6 +11,7 @@ import com.backend.sudoku.SudokuImpl
 import com.backend.sudoku.SudokuUtil
 import com.frontend.NumberSelector
 import com.frontend.SudokuGridView
+import com.frontend.ToastMaker
 import com.frontend.Undoer
 import com.sudokuanke.R
 
@@ -99,6 +100,7 @@ class InsertActivity : ComponentActivity() {
             return
         }
 
+        ToastMaker.showSaveConfirmationMessage(applicationContext, "File $fileName saved")
         exit()
     }
 
