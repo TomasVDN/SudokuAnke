@@ -40,7 +40,6 @@ class LoadActivity : ComponentActivity(), AdapterView.OnItemSelectedListener {
             deleteSave()
         }
 
-        val warningTextView = findViewById<TextView>(R.id.warningTextView)
         val combobox = findViewById<Spinner>(R.id.fileSelectionBox)
         combobox.onItemSelectedListener = this
 
