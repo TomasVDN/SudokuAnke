@@ -82,6 +82,15 @@ public class SudokuUtil {
         return true;
     }
 
+    public static boolean existsOnDisk(Context context, String name) {
+        if (!checkName(name)) {
+            return false;
+        }
+        File file = new File(getSudokuDir(context), name);
+
+        return file.exists() && !file.isDirectory();
+    }
+
     // TODO[Tomas] handle exception in the callers... For now, the app crashes :D
     public static Pair<int[][], String> getFromDisk(Context context, String name) throws IOException {
         File file = new File(getSudokuDir(context), name);
