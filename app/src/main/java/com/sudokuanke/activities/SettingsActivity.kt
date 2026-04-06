@@ -29,7 +29,7 @@ class SettingsActivity : ComponentActivity() {
         ColorEntry("Your digits",         ColorPrefs.DIGIT_USER),
         ColorEntry("Fixed digits",        ColorPrefs.DIGIT_FIXED),
         ColorEntry("Conflicts",           ColorPrefs.DIGIT_CONFLICT),
-        ColorEntry("Number highlight",    ColorPrefs.NUMBER_SELECTED_BG),
+        ColorEntry("Number highlight",    ColorPrefs.NUMBER_SELECTED_BACKGROUND),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,12 +78,12 @@ class SettingsActivity : ComponentActivity() {
         val row = layoutInflater.inflate(R.layout.item_color_setting, container, false)
         val label     = row.findViewById<TextView>(R.id.colorLabel)
         val preview   = row.findViewById<android.view.View>(R.id.colorPreview)
-        val changeBtn = row.findViewById<ShinyButton>(R.id.changeColorButton)
+        val changeButton = row.findViewById<ShinyButton>(R.id.changeColorButton)
 
         label.text = entry.label
         preview.setBackgroundColor(ColorPrefs.getColor(this, entry.key))
 
-        changeBtn.setOnClickListener {
+        changeButton.setOnClickListener {
             showColorPicker(ColorPrefs.getColor(this, entry.key)) { newColor ->
                 ColorPrefs.setColor(this, entry.key, newColor)
                 preview.setBackgroundColor(newColor)

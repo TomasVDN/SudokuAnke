@@ -8,7 +8,7 @@
     <color name="digit_user">#FFFF00FF</color>
     <color name="digit_conflict">#FFFF0000</color>
     <color name="cell_highlight">#FFDE00FF</color>
-    <color name="number_selected_bg">#FFE400FF</color>
+    <color name="number_selected_background">#FFE400FF</color>
 
     <!-- Settings UI -->
     <color name="settings_label">#FF888888</color>

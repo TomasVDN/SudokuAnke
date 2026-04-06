@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">SudokuAnke</string>
-    <string name="u_blind">u blind</string>
     <string name="no_files_to_load">No files to load</string>
     <string name="exit">Exit</string>
     <string name="delete">Delete</string>

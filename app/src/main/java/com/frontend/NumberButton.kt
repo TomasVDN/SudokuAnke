@@ -22,7 +22,7 @@ class NumberButton(context: Context, attrs: AttributeSet? = null) : View(context
     }
     private val highlightPaint = Paint().apply {
         style = Paint.Style.FILL
-        color = ColorPrefs.getColor(context, ColorPrefs.NUMBER_SELECTED_BG)
+        color = ColorPrefs.getColor(context, ColorPrefs.NUMBER_SELECTED_BACKGROUND)
         alpha = 30
     }
 
