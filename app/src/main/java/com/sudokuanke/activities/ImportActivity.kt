@@ -7,8 +7,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import androidx.activity.ComponentActivity
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
@@ -29,11 +31,24 @@ class ImportActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.import_page)
 
-        startCameraCapture()
+        val takePictureButton = findViewById<Button>(R.id.takePictureButton)
+        takePictureButton.setOnClickListener {
+            startCameraCapture()
+        }
+
+        val loadPictureButton = findViewById<Button>(R.id.loadPictureButton)
+        loadPictureButton.setOnClickListener {
+            loadPicture()
+        }
     }
 
     private var photoUriSet: Boolean = false
     private lateinit var photoUri: Uri
+
+    //----------------------------------------------------------------------------------------------
+    // TAKE PICTURE
+    //----------------------------------------------------------------------------------------------
+
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
@@ -67,6 +82,32 @@ class ImportActivity : ComponentActivity() {
             filesDir
         )
     }
+
+    //----------------------------------------------------------------------------------------------
+    // LOAD PICTURE
+    //----------------------------------------------------------------------------------------------
+
+    private val pickMediaLauncher =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                Log.d("PhotoPicker", "Selected URI: $uri")
+                photoUri = uri
+                photoUriSet = true
+                readSudoku()
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
+
+    private fun loadPicture() {
+        lifecycleScope.launch {
+            pickMediaLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // READ SUDOKU
+    //----------------------------------------------------------------------------------------------
 
     private fun readSudoku() {
         if (!photoUriSet) {
