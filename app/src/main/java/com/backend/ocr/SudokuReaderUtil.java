@@ -25,11 +25,6 @@ public class SudokuReaderUtil {
                 && indices[1] >= 0 && indices[1] < 9;
     }
 
-    public static boolean valueValid(int value) {
-        return value >= 0 && value <= 9;
-    }
-
-
     public static String prettyPrintSudoku(int[][] sudoku) {
         StringBuilder string = new StringBuilder();
         for (int[] rows : sudoku) {
