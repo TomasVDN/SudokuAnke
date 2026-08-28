@@ -61,24 +61,19 @@ public class CharactersReader {
                     }
                     Rect elementBoundingBox = element.getBoundingBox();
                     boundedCharacters.characters.add(new BoundedCharacter(value, elementBoundingBox));
-                    boundedCharacters.boundingBox.union(elementBoundingBox);
+                    //boundedCharacters.boundingBox.union(elementBoundingBox);
                 }
             }
         }
 
-        String rep = "";
-        for (BoundedCharacter boundedCharacter : boundedCharacters.characters) {
-           rep += boundedCharacter.toString();
-        }
+        boundedCharacters.boundingBox = new Rect(0, 0, image.getWidth(), image.getHeight());
+
         //Log.d("Found elements", rep);
         //Log.d("BoundingBox", characters.boundingBox.flattenToString());
-
-        int width = boundedCharacters.boundingBox.width();
-        int height = boundedCharacters.boundingBox.height();
-
-        int xOffset = boundedCharacters.boundingBox.left;
-        int yOffset = boundedCharacters.boundingBox.top;
-
+        //int width = boundedCharacters.boundingBox.width();
+        //int height = boundedCharacters.boundingBox.height();
+        //int xOffset = boundedCharacters.boundingBox.left;
+        //int yOffset = boundedCharacters.boundingBox.top;
         //Log.d("Rect info", "width: " + width + " - height: "+height+" - xOffset: " + xOffset + " - yOffset: "+yOffset);
 
         return boundedCharacters;
